@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { FaRegBookmark, FaEye } from "react-icons/fa";
+import React from 'react';
+import { FaRegBookmark, FaEye, FaStar } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
+import { Link } from 'react-router';
 
 const NewsCard = ({ news }) => {
-    const [description, setDescription] = useState(false);
     const {
+        id,
         title,
         author,
         thumbnail_url,
@@ -13,9 +14,6 @@ const NewsCard = ({ news }) => {
         total_view
     } = news;
     const formattedDate = new Date(author.published_date).toDateString();
-    const handleDetails = () => {
-        setDescription(!description);
-    };
     return (
         <div className="max-w-3xl mx-auto bg-white rounded-lg overflow-hidden shadow-md border border-gray-200 my-5">
             {/* Header with author and date */}
@@ -49,24 +47,24 @@ const NewsCard = ({ news }) => {
 
             {/* Content preview */}
             <div className="px-6 py-4">
-                { description ? details : details.slice(0, 200)}
-                { description ? "" : "....."}
-                <span
-                onClick={() => handleDetails()}
-                className="text-orange-400 font-semibold hover:text-orange-600 transition-colors cursor-pointer">
-                    {description ? "Read Less" : "Read More"}
-                </span>
+                    {details. length > 200 ?
+                        <>
+                            {details. slice(0, 200)}...
+                            <Link to={`/news-deatails/${id}`} className="text-primary font-semibold
+                            cursor-pointer hover: underline">
+                            Read More
+                            </ Link>
+                        </>
+                        :   details}
             </div>
 
             <div className="px-6 py-4 flex items-center justify-between">
                 <div className='flex items-center gap-3'>
-                    <div className="rating">
-                        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="1 star" />
-                        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="2 star" />
-                        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="3 star" />
-                        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="4 star" />
-                        <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="5 star"/>
-                    </div>
+                <div className='flex items-center gap-1 text-orange-400'>
+                {Array.from({ length: rating.number }, (_, index) => (
+                    <FaStar key={index}></FaStar>
+                    ))}
+                </div>
                     <div>{rating.number}</div>
                 </div>
                 <div className='flex gap-2 items-center'>
